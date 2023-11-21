@@ -1,16 +1,20 @@
 import { useState } from "react"
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { addUser } from "../../utils/dynamodb/dynamodb.utils";
+import {v4 as uuidv4} from 'uuid';
+
+
 
 const SignUpForm = () => {
     const defaultFormFields = {
-        displayName: '',
+        userName: '',
         email: '',
         password: '',
         confirmPassword: ''
     }
 
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const { displayName, email, password, confirmPassword } = formFields;
+    const { userName, email, password, confirmPassword } = formFields;
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -21,8 +25,8 @@ const SignUpForm = () => {
         }
 
         try {
-            // const { user } = await createAuthUserWithEmailAndPassword(email, password);
-            // const userDoc = await createUserDocumentFromAuth(user, { displayName });
+            let userId = uuidv4();
+            const res = addUser(userId, userName, email, password);
             setFormFields(defaultFormFields);
         } catch(error) {
             if(error.code === 'auth/email-already-in-use') {
@@ -32,20 +36,37 @@ const SignUpForm = () => {
         }
     }
 
+    const handleChange = (event) => {
+        const {name, value} = event.target;
+        setFormFields({...formFields, [name]: value});
+    }
+
     return(
         <form onSubmit={handleSubmit}>
             <h2>Sign Up</h2>
             <label for="username">Username:</label>
-            <TextInput type="text" id="username" name="username" value={displayName} required />
+            <input type="text" id="userName" name="userName" 
+                value={userName}
+                onChange={handleChange} 
+                required />
 
             <label for="email">Email:</label>
-            <TextInput type="email" id="email" name="email" value={email} required />
+            <input type="email" id="email" name="email" 
+                value={email}
+                onChange={handleChange} 
+                required />
 
             <label for="password">Password:</label>
-            <TextInput type="password" id="password" name="password" value={password} required />
+            <input type="password" id="password" name="password" 
+                value={password}
+                onChange={handleChange}
+                required />
 
             <label for="confirmPassword">Confirm Password:</label>
-            <TextInput type="password" id="confirmPassword" name="confirmPassword" value={confirmPassword} required />
+            <input type="password" id="confirmPassword" name="confirmPassword" 
+                value={confirmPassword}
+                onChange={handleChange} 
+                required />
 
             <button type="submit">Sign Up</button>
         </form>

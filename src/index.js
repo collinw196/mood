@@ -4,8 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { fetchAuthSession } from 'aws-amplify/auth'
+import { currentAuthenticatedUser, currentSession } from './utils/dynamodb/dynamodb.utils';
+import * as AWS from 'aws-sdk'
+import { ConfigurationOptions } from 'aws-sdk'
 
+const configuration = {
+    region: 'us-east-1',
+    secretAccessKey: 'za7liwhStvUIOt2NMcJVmyb/pTC14wgqasHD2nF7',
+    accessKeyId: 'AKIA3FRDZSQVQE2CQDWL'
+}
+
+AWS.config.update(configuration)
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
