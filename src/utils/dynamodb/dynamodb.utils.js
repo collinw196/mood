@@ -24,20 +24,36 @@ export const fetchAllUsers = async () => {
   })
 };
 
-export const addUser = async(userId, userName, email, password) => {
+export const validateUserLogin = async (email, password) => {
+  var params = {
+    TableName: tableName,
+    Key: {
+      email: email
+    }
+  }
+
+  const result = await docClient.get(params).promise();
+  var pass = await decryptCiphertext(result.Item.password);
+  if(password == pass){
+    alert("Login successful");
+  } else {
+    alert("Incorrect email or password.");
+  }
+}
+
+export const addUser = async(userId, email, password) => {
   const cipherPass = await encryptPlaintext(password);
   var params = {
     TableName: tableName,
     Item: {
       userId: userId,
-      userName: userName,
       email: email,
       password: cipherPass.CiphertextBlob
     }
   }
 
-  const users = await checkExistingUsers();
-  if(users.Count == 0) {
+  const existingUser = await checkExistingUsers(email);
+  if(existingUser.Item === undefined) {
     docClient.put(params, function (err, data) {
         if (err) {
             console.log('Error', err)
@@ -63,14 +79,14 @@ const deleteUser = async(email) => {
 const checkExistingUsers = async(email) => {
   var existingUserParams = {
     TableName: tableName,
-    Item: {
+    Key: {
       email: email,
     }
   }
 
   var users;
   try {
-    users = await docClient.scan(existingUserParams).promise();
+    users = await docClient.get(existingUserParams).promise();
   } catch(e) {
     console.log(e);
   }
@@ -85,4 +101,14 @@ const encryptPlaintext = async(plainText) => {
 
   const result = await encryptionKey.encrypt(encryptionParams).promise();
   return result;
+}
+
+const decryptCiphertext = async(cipherText) => {
+  var params = {
+    KeyId: '1a909316-430b-497a-aec7-cefb1044b18b',
+    CiphertextBlob: cipherText
+  }
+
+  const result = await encryptionKey.decrypt(params).promise();
+  return result.Plaintext.toString();
 }

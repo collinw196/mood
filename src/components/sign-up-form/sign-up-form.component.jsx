@@ -7,14 +7,13 @@ import {v4 as uuidv4} from 'uuid';
 
 const SignUpForm = () => {
     const defaultFormFields = {
-        userName: '',
         email: '',
         password: '',
         confirmPassword: ''
     }
 
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const { userName, email, password, confirmPassword } = formFields;
+    const { email, password, confirmPassword } = formFields;
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -26,13 +25,10 @@ const SignUpForm = () => {
 
         try {
             let userId = uuidv4();
-            const res = addUser(userId, userName, email, password);
+            const res = addUser(userId, email, password);
             setFormFields(defaultFormFields);
         } catch(error) {
-            if(error.code === 'auth/email-already-in-use') {
-                alert('email already in use');
-            }
-            console.log(error);
+            
         }
     }
 
@@ -44,12 +40,6 @@ const SignUpForm = () => {
     return(
         <form onSubmit={handleSubmit}>
             <h2>Sign Up</h2>
-            <label for="username">Username:</label>
-            <input type="text" id="userName" name="userName" 
-                value={userName}
-                onChange={handleChange} 
-                required />
-
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" 
                 value={email}
