@@ -1,19 +1,21 @@
 import { useState } from "react"
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
 import { addUser } from "../../utils/dynamodb/dynamodb.utils";
+import { signUpUser } from "../../utils/cognito/cognito.utils";
 import {v4 as uuidv4} from 'uuid';
 
 
 
 const SignUpForm = () => {
     const defaultFormFields = {
+        username: '',
         email: '',
         password: '',
         confirmPassword: ''
     }
 
     const [formFields, setFormFields] = useState(defaultFormFields);
-    const { email, password, confirmPassword } = formFields;
+    const { username, email, password, confirmPassword } = formFields;
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -24,8 +26,7 @@ const SignUpForm = () => {
         }
 
         try {
-            let userId = uuidv4();
-            const res = addUser(userId, email, password);
+            const res = signUpUser(username, email, password);
             setFormFields(defaultFormFields);
         } catch(error) {
             
@@ -40,6 +41,12 @@ const SignUpForm = () => {
     return(
         <form onSubmit={handleSubmit}>
             <h2>Sign Up</h2>
+            <label for="username">Username:</label>
+            <input type="username" id="username" name="username" 
+                value={username}
+                onChange={handleChange} 
+                required />
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" 
                 value={email}
