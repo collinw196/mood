@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
 import './home.styles.scss'
 
@@ -14,6 +16,16 @@ const HomePage = () => {
     const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
     const [newService, setNewService] = useState('');
     const [newCost, setNewCost] = useState('');
+
+    const currentUser = useSelector((state) => state.user.currentUser);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(!currentUser) {
+            navigate('/auth');
+            alert('Please log in to view your dashboard.');
+        }
+    }, []);
 
     // Function to add a new subscription
     const addSubscription = () => {

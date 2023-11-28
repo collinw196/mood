@@ -14,14 +14,11 @@ const Navigation = () => {
     
     return (
         <Fragment>
-            <Link to='/home'>
-                Home Page
-            </Link>
             <div className='nav-links-container'>
                 {
                     currentUser 
                     ? 
-                    <Link onClick={handleSignOut}>
+                    <Link to='/auth' onClick={handleSignOut}>
                         Sign Out
                     </Link> 
                     : 

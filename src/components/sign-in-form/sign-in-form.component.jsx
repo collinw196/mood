@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { signInUser } from '../../utils/cognito/cognito.utils';
+import { getIdentityPoolCredentials, 
+    signInUser } from '../../utils/cognito/cognito.utils';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setCurrentUser } from '../../app/store/user/user.slice';
 import ModalPopup from '../modal-popup/modal-popup.component';
 import Button from '../button/button.component';
@@ -19,6 +21,7 @@ const SignInForm = () => {
     const [seen, setSeen] = useState(false);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const togglePop = () => {
         setSeen(!seen);
@@ -30,6 +33,7 @@ const SignInForm = () => {
             const user = signInUser(username, password);
             setFormFields(defaultFormFields);
             dispatch(setCurrentUser(user.username));
+            navigate('/home');
         } catch(error) {
             console.log(error);
         }
@@ -41,7 +45,8 @@ const SignInForm = () => {
     }
 
     const handleGoogleSignIn = (event) => {
-
+        // event.preventDefault();
+        // getIdentityPoolCredentials();
     }
 
     return (
@@ -63,7 +68,7 @@ const SignInForm = () => {
                 <div className='buttons-container'>
                     <Button type="submit" onSubmit={handleSubmit}>Sign In</Button>
                     <Button type="button" buttonType='google' 
-                        onSubmit={handleGoogleSignIn}>Sign In with Google</Button>
+                        onClick={handleGoogleSignIn}>Sign In with Google</Button>
                 </div>
                 
             </form>

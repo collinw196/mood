@@ -3,13 +3,33 @@ import {
     CognitoUserAttribute,
     CognitoUser,
     AuthenticationDetails
-  } from 'amazon-cognito-identity-js'
+  } from 'amazon-cognito-identity-js';
+import * as AWS from 'aws-sdk'
 import { promisify } from 'util';
 
 const userPool = new CognitoUserPool({
     UserPoolId: 'us-east-1_L9QSKz1Ik',
     ClientId: '1rvbsbs1ofnde2occcjm660r3j'
 });
+
+
+
+export const getIdentityPoolCredentials = (authResult) => {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:be847007-2ae7-4e87-87df-e4fda6d08880',
+        Logins: { // optional tokens, used for authenticated login
+            'accounts.google.com': authResult['id_token'],
+        }
+    });
+        // Make the call to obtain credentials
+        AWS.config.credentials.get(function(){
+
+        // Credentials will be available when this function is called.
+        var accessKeyId = AWS.config.credentials.accessKeyId;
+        var secretAccessKey = AWS.config.credentials.secretAccessKey;
+        var sessionToken = AWS.config.credentials.sessionToken;
+    });
+}
 
 export const getUserPool = () => {
     return userPool;
