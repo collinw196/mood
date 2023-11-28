@@ -7,21 +7,15 @@ import {
 import { promisify } from 'util';
 
 const userPool = new CognitoUserPool({
-    UserPoolId: 'us-east-1_QtmG2wggg',
-    ClientId: '1l0dcnac3vair4o59rqf404e3v'
+    UserPoolId: 'us-east-1_L9QSKz1Ik',
+    ClientId: '1rvbsbs1ofnde2occcjm660r3j'
 });
-
-var currentUser = null;
 
 export const getUserPool = () => {
     return userPool;
 }
 
-export const getCurrentUser = () => {
-    return currentUser;
-}
-
-export const signInUser = async(username, password) => {
+export const signInUser = (username, password) => {
     const userData = {
         Username: username,
         Pool: userPool
@@ -38,7 +32,6 @@ export const signInUser = async(username, password) => {
 
             /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer */
             var idToken = result.idToken.jwtToken;
-            currentUser = cognitoUser;
         },
         onFailure: function(err) {
             alert(err);
@@ -46,7 +39,8 @@ export const signInUser = async(username, password) => {
         newPasswordRequired: function(resolve) {
 
         }
-    });   
+    });
+    return cognitoUser;   
 }
 
 export const signOutUser = (username) => {
@@ -56,7 +50,6 @@ export const signOutUser = (username) => {
     }
     const cognitoUser = new CognitoUser(userData);
     cognitoUser.signOut();
-    currentUser = null;
 }
 
 export const resendCode = (username) => {

@@ -8,6 +8,8 @@ import { fetchAuthSession } from 'aws-amplify/auth'
 import { currentAuthenticatedUser, currentSession } from './utils/dynamodb/dynamodb.utils';
 import * as AWS from 'aws-sdk'
 import { ConfigurationOptions } from 'aws-sdk'
+import { store } from './app/store/store';
+import { Provider } from 'react-redux'
 
 const configuration = {
     region: 'us-east-1',
@@ -20,9 +22,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

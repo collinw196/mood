@@ -1,10 +1,8 @@
 import { useState } from "react"
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
 import { addUser } from "../../utils/dynamodb/dynamodb.utils";
 import { signUpUser } from "../../utils/cognito/cognito.utils";
-import {v4 as uuidv4} from 'uuid';
-
-
+import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 
 const SignUpForm = () => {
     const defaultFormFields = {
@@ -21,13 +19,14 @@ const SignUpForm = () => {
         event.preventDefault();
 
         if(password !== confirmPassword) { 
-            alert('passwords do not match'); 
+            alert('Passwords do not match.'); 
             return;
         }
 
         try {
             const res = signUpUser(username, email, password);
             setFormFields(defaultFormFields);
+            alert('Sign up successful!');
         } catch(error) {
             
         }
@@ -41,31 +40,31 @@ const SignUpForm = () => {
     return(
         <form onSubmit={handleSubmit}>
             <h2>Sign Up</h2>
-            <label for="username">Username:</label>
-            <input type="username" id="username" name="username" 
+            <FormInput type="username" id="username" name="username"
+                label='Username' 
                 value={username}
                 onChange={handleChange} 
                 required />
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" 
+            <FormInput type="email" id="email" name="email"
+                label='Email' 
                 value={email}
                 onChange={handleChange} 
                 required />
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" 
+            <FormInput type="password" id="password" name="password" 
+                label='Password'
                 value={password}
                 onChange={handleChange}
                 required />
 
-            <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" 
+            <FormInput type="password" id="confirmPassword" name="confirmPassword"
+                label = 'Confirm Password' 
                 value={confirmPassword}
                 onChange={handleChange} 
                 required />
 
-            <button type="submit">Sign Up</button>
+            <Button type="submit">Sign Up</Button>
         </form>
     )
 }

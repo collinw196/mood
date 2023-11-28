@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
 import { signInUser } from '../../utils/cognito/cognito.utils';
-import UserConfirmationPopup from '../user-confirmation-popup/user-confirmation-popup.component';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../../app/store/user/user.slice';
+import ModalPopup from '../modal-popup/modal-popup.component';
+import Button from '../button/button.component';
+import FormInput from '../form-input/form-input.component';
+import './sign-in-form.styles.scss';
 
 const SignInForm = () => {
     const defaultFormFields = {
@@ -14,6 +18,8 @@ const SignInForm = () => {
 
     const [seen, setSeen] = useState(false);
 
+    const dispatch = useDispatch();
+
     const togglePop = () => {
         setSeen(!seen);
     }
@@ -21,8 +27,9 @@ const SignInForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         try {
-            signInUser(username, password);
+            const user = signInUser(username, password);
             setFormFields(defaultFormFields);
+            dispatch(setCurrentUser(user.username));
         } catch(error) {
             console.log(error);
         }
@@ -33,27 +40,37 @@ const SignInForm = () => {
         setFormFields({...formFields, [name]: value});
     }
 
+    const handleGoogleSignIn = (event) => {
+
+    }
+
     return (
-        <div>
+        <div className='sign-in-container'>
             <form onSubmit={handleSubmit}>
                 <h2>Sign In</h2>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" 
+                <FormInput type="text" id="username" name="username"
+                label='Username' 
                 value={username}
                 onChange={handleChange}
                 required />
 
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"
+                <FormInput type="password" id="password" name="password"
+                label='Password' 
                 value={password}
                 onChange={handleChange}
                 required />
 
-                <button type="submit" onSubmit={handleSubmit}>Sign In</button>
+                <div className='buttons-container'>
+                    <Button type="submit" onSubmit={handleSubmit}>Sign In</Button>
+                    <Button type="button" buttonType='google' 
+                        onSubmit={handleGoogleSignIn}>Sign In with Google</Button>
+                </div>
+                
             </form>
-            <div>
-                <button onClick={togglePop}>Confirm User</button>
-                {seen ? <UserConfirmationPopup toggle={togglePop} /> : null}
+            
+            <div className='popup-container'>
+                <div className='popup-link' onClick={togglePop}>Confirm User</div>
+                {seen ? <ModalPopup toggle={togglePop} /> : null}
             </div>
         </div>
     )

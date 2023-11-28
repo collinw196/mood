@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import './user-confirmation.popup.styles.scss';
+import './modal-popup.styles.scss';
 import { confirmUser, resendCode } from '../../utils/cognito/cognito.utils';
 
-const UserConfirmationPopup = (props) => {
+const ModalPopup = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
@@ -45,4 +45,4 @@ const UserConfirmationPopup = (props) => {
     );
 }
 
-export default UserConfirmationPopup;
+export default ModalPopup;
