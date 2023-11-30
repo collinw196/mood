@@ -4,8 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { fetchAuthSession } from 'aws-amplify/auth'
-import { currentAuthenticatedUser, currentSession } from './utils/dynamodb/dynamodb.utils';
 import * as AWS from 'aws-sdk'
 import { ConfigurationOptions } from 'aws-sdk'
 import { store } from './app/store/store';

@@ -9,6 +9,7 @@ const Navigation = () => {
     const dispatch = useDispatch();
 
     const handleSignOut = () => {
+        signOutUser(currentUser);
         dispatch(setCurrentUser(null));
     }
     

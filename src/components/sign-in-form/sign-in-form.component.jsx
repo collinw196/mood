@@ -33,7 +33,7 @@ const SignInForm = () => {
             const user = signInUser(username, password);
             setFormFields(defaultFormFields);
             dispatch(setCurrentUser(user.username));
-            navigate('/home');
+            navigate('/dashboard');
         } catch(error) {
             console.log(error);
         }
@@ -54,16 +54,16 @@ const SignInForm = () => {
             <form onSubmit={handleSubmit}>
                 <h2>Sign In</h2>
                 <FormInput type="text" id="username" name="username"
-                label='Username' 
-                value={username}
-                onChange={handleChange}
-                required />
+                    label='Username' 
+                    value={username}
+                    onChange={handleChange}
+                    required />
 
                 <FormInput type="password" id="password" name="password"
-                label='Password' 
-                value={password}
-                onChange={handleChange}
-                required />
+                    label='Password' 
+                    value={password}
+                    onChange={handleChange}
+                    required />
 
                 <div className='buttons-container'>
                     <Button type="submit" onSubmit={handleSubmit}>Sign In</Button>

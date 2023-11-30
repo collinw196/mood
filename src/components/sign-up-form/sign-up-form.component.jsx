@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { addUser } from "../../utils/dynamodb/dynamodb.utils";
 import { signUpUser } from "../../utils/cognito/cognito.utils";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
