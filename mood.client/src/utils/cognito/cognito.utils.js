@@ -8,15 +8,15 @@ import * as AWS from 'aws-sdk'
 import { promisify } from 'util';
 
 const userPool = new CognitoUserPool({
-    UserPoolId: 'us-east-1_L9QSKz1Ik',
-    ClientId: '1rvbsbs1ofnde2occcjm660r3j'
+    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
+    ClientId: process.env.AWS_COGNITO_CLIENT_ID
 });
 
 
 
 export const getIdentityPoolCredentials = (authResult) => {
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-east-1:be847007-2ae7-4e87-87df-e4fda6d08880',
+        IdentityPoolId: process.env.AWS_COGNITO_IDENTITY_POOL_ID,
         Logins: { // optional tokens, used for authenticated login
             'accounts.google.com': authResult['id_token'],
         }

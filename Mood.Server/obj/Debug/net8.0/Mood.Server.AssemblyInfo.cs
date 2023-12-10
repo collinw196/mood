@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mood.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+672b1f4e4214d26b957a1079c3984876d778da8d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mood.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mood.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

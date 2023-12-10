@@ -33,3 +33,4 @@ C:\Users\colli\Desktop\Mood Tracking App\mood-server\Mood\Mood.Server\obj\Debug\
 C:\Users\colli\Desktop\Mood Tracking App\mood-server\Mood\Mood.Server\obj\Debug\net8.0\Mood.Server.pdb
 C:\Users\colli\Desktop\Mood Tracking App\mood-server\Mood\Mood.Server\obj\Debug\net8.0\Mood.Server.genruntimeconfig.cache
 C:\Users\colli\Desktop\Mood Tracking App\mood-server\Mood\Mood.Server\obj\Debug\net8.0\ref\Mood.Server.dll
+C:\Users\colli\Desktop\Mood Tracking App\mood-server\Mood\Mood.Server\obj\Debug\net8.0\Mood.Server.sourcelink.json

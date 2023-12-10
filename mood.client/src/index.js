@@ -10,9 +10,9 @@ import { store } from './app/store/store';
 import { Provider } from 'react-redux'
 
 const configuration = {
-    region: 'us-east-1',
-    secretAccessKey: 'za7liwhStvUIOt2NMcJVmyb/pTC14wgqasHD2nF7',
-    accessKeyId: 'AKIA3FRDZSQVQE2CQDWL'
+    region: process.env.AWS_REGION,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID
 }
 
 AWS.config.update(configuration)
