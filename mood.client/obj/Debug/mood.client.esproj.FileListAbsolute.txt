@@ -1,0 +1,1 @@
+C:\Users\colli\Desktop\Mood Tracking App\mood-server\Mood\mood.client\obj\Debug\mood.client.esproj.CoreCompileInputs.cache
