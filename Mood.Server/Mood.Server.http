@@ -1,6 +1,0 @@
-@Mood.Server_HostAddress = http://localhost:5186
-
-GET {{Mood.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
