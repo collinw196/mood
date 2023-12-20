@@ -1,14 +1,29 @@
 .mood-input-container {
-    height: 20px;
-    width: 200px;
-    display: inline-block;
+  height: 20px;
+  width: 200px;
+  display: flex;
+  flex-direction: row;
 
-    .mood-weight-input-container {
-      float: right;
-
-        .mood-weight-input {
-          width: 35px;
-          float: right;
-        }
-      }
+  .checkbox-container {
+    display: flex;
   }
+
+  .mood-weight-input-container {
+    display: flex;
+    padding: 0 5px 0 5px;
+    .mood-weight-label {
+      width: 50px;
+    }
+    .mood-weight-input {
+      width: 35px;
+      padding: 5px;
+    }
+  }
+
+  .mood-notes-input-container {
+    display: flex;
+    .mood-notes-input {
+
+    }
+  }
+}

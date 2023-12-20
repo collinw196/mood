@@ -7,7 +7,7 @@ namespace Mood.Server.Models
     [NotMapped]
     public class UserMoodInput
     {
-        public MoodEntity Mood { get; set; }
+        public string MoodName { get; set; }
         public int Weight { get; set; }
         public string Notes { get; set; }
     }

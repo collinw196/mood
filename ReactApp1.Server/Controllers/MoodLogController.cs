@@ -20,7 +20,7 @@ namespace Mood.Server.Controllers
             _db = db;
         }
 
-        [HttpGet(Name = "GetUserMoods")]
+        [HttpGet("GetUserMoods")]
         public IEnumerable<MoodLogEntity> GetMoodLogs()
         {
             var rawMoodLogs = _db.MoodLogs.ToList();
@@ -42,7 +42,7 @@ namespace Mood.Server.Controllers
                     //    MoodId = Convert.ToInt32(item["Mood"]),
                     //    MoodName = item["MoodName"].ToString()
                     //},
-                    Mood = JsonConvert.DeserializeObject<MoodEntity>(item["Mood"].ToString()),
+                    MoodName = item["Mood"].ToString(),
                     Weight = Convert.ToInt32(item["Weight"]),
                     Notes = item["Notes"].ToString(),
                 }).ToList()) ;
@@ -53,15 +53,15 @@ namespace Mood.Server.Controllers
             return rawMoodLogs;
         }
 
-        [HttpPost(Name = "PostUserMoods")]
-        public string PostMoodLogs(MoodLogEntity moodLogs)
+        [HttpPost("PostUserMoods")]
+        public string PostMoodLogs([FromBody]MoodLogEntity moodLog)
         {
-            var jsonString = JsonConvert.SerializeObject(moodLogs.DeserializedMoodList);
-            moodLogs.MoodList = jsonString;
+            var jsonString = JsonConvert.SerializeObject(moodLog.DeserializedMoodList);
+            moodLog.MoodList = jsonString;
+            moodLog.Date = DateTime.Now;
             using (var context = _db)
             {
-                var existingMoodLogs = context.Set<MoodLogEntity>();
-                existingMoodLogs.Add(moodLogs);
+                context.MoodLogs.Add(moodLog);
                 context.SaveChanges();
             }
                 

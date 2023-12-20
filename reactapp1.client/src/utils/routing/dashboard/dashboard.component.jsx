@@ -1,35 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMoods } from '../../../app/store/moods/moods.slice'
 import FormInput from '../../../components/form-input/form-input.component';
 import MoodInput from '../../../components/mood-input/mood-input.component';
 import './dashboard.styles.scss';
+import { setMoodLog } from '../../../app/store/moodLogs/moodLogs.slice';
+import { v4 as uuidv4 } from 'uuid';
 
 const Dashboard = () => {
     const defaultFormFields = {
-        hoursSleep: '',
+        hoursSleep: ''
     }
     // State variables
     const [formFields, setFormFields] = useState(defaultFormFields);
-    //const { hoursSleep } = formFields;
+    const [userId, setUserId] = useState();
+    const {hoursSleep} = formFields;
+    const moods = useSelector((state) => state.moods.moods);
+    const moodLogs = useSelector((state) => state.moodLogs.moodLogs);
+    const currentUser = useSelector((state) => state.user.currentUser);
+    const dispatch = useDispatch();
 
-    //const moods = useSelector((state) => state.moods.moods);
+    useEffect(() => {
+        getMoods();
+        getCurrentUserId();
+    }, [])
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormFields({...formFields, [name]: value});
     }
 
-    const logMoods = async (event) => {
+    const logUserMoods = async (event) => {
         event.preventDefault();
-        //Write shit to rds db
-        const result = await fetch('getmoodlogs');
+        const test = moodLogs;
+        //Write stuff to rds db
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                "moodLogId": uuidv4(),
+                "userId": userId,
+                "hoursSleep": hoursSleep,
+                "deserializedMoodList": moodLogs
+              })
+        };
+        await fetch('https://localhost:7117/MoodLog/PostUserMoods', requestOptions);
     }
 
     //Get moods from rds db
-    const getMoods = () => {
-        fetch('http://localhost:3000/dashboard/MoodEntity').then(response => response.json())
+    const getMoods = async () => {
+        await fetch('https://localhost:7117/Mood/GetMoods').then(response => response.json())
         .then(data => {
           console.log(data) 
+          dispatch(setMoods(data));
         });
+    }
+
+    const getCurrentUserId = async () => {
+        await fetch(`https://localhost:7117/User/GetUser/${currentUser}`)
+            .then(response => response.json())
+            .then(data => {setUserId(data.userId)})
     }
 
     return (
@@ -44,13 +74,15 @@ const Dashboard = () => {
                 />
 
                 <label>How have you been feeling today?</label>
-                <MoodInput label='Happy'/>
-                <MoodInput label='Sad'/>
-                <MoodInput label='Angry'/>
-                <MoodInput label='Tired'/>
+
+                {
+                    moods?.map(mood => (
+                        <MoodInput key={mood.moodId} label={mood.moodName} />
+                    ))
+                }
 
                 <div className='buttons-container'>
-                    <button onClick={logMoods}>Log Moods</button>
+                    <button onClick={logUserMoods}>Log Moods</button>
                 </div>
             </div>
         </div>

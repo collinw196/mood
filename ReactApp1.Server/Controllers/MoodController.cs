@@ -16,10 +16,9 @@ namespace Mood.Server.Controllers
             _db = db;
         }
 
-        [HttpGet(Name = "GetMoods")]
+        [HttpGet("GetMoods")]
         public IEnumerable<MoodEntity> GetMoods()
         {
-            var test = _db.Moods.ToList();
             return _db.Moods.ToList();
         }
     }

@@ -22,10 +22,10 @@ namespace Mood.Server.Controllers
             return _db.Users.ToList();
         }
 
-        [HttpGet("{UserId?}")]
-        public UserEntity GetUser(int id)
+        [HttpGet("GetUser/{UserName?}")]
+        public UserEntity GetUser(string username)
         {
-            return _db.Users.Where(x => x.UserId == id).FirstOrDefault();
+            return _db.Users.Where(x => x.UserName.Equals(username)).FirstOrDefault();
         }
 
         [HttpPost("PostUser")]
