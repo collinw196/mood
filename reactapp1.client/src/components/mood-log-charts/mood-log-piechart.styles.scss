@@ -1,0 +1,9 @@
+.pie-chart-container {
+    display: flex;
+    flex-direction: column;
+    width: 730px;
+
+    .pie-chart-label {
+        text-align: center;
+    }
+}
