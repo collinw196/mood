@@ -22,6 +22,7 @@
     "react-router-dom": "^6.20.1",
     "recharts": "^2.10.3",
     "sass": "^1.69.5",
+    "stream-browserify": "^3.0.0",
     "uuid": "^9.0.1",
     "uuidv4": "^6.2.13",
     "web-vitals": "^3.5.0"
@@ -34,6 +35,6 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "vite": "^5.0.8"
+    "vite": "^5.0.11"
   }
 }

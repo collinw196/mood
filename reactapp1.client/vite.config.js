@@ -57,5 +57,6 @@ export default defineConfig(({ command, mode }) => {
           'process.env.AWS_COGNITO_USER_POOL_ID': JSON.stringify(env.AWS_COGNITO_USER_POOL_ID),
           'process.env.AWS_COGNITO_CLIENT_ID': JSON.stringify(env.AWS_COGNITO_CLIENT_ID),
         },
+        resolve: { alias: { stream: "stream-browserify" } }
   };
 });
