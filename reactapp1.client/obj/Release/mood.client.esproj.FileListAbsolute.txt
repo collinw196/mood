@@ -1,0 +1,1 @@
+C:\Users\colli\Desktop\Mood Tracking App\Mood\reactapp1.client\obj\Release\mood.client.esproj.CoreCompileInputs.cache

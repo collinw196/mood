@@ -8,5 +8,6 @@ namespace Mood.Server.Models
         [Key]
         public int MoodId { get; set; }
         public string MoodName { get; set; }
+        public string Color { get; set; }
     }  
 }

@@ -27,7 +27,7 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Navigation/>}>
         <Route path='auth' element={<Auth/>}/>
-        <Route path='dashboard' element={<Dashboard/>}/>
+        <Route path='dashboard' element={<Dashboard apiBase={window.location.origin}/>}/>
       </Route>
     </Routes>
   );

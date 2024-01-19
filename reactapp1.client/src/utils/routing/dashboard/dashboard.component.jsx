@@ -11,7 +11,7 @@ import MoodLogPieChart from '../../../components/mood-log-charts/mood-log-piecha
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 
-const Dashboard = () => {
+const Dashboard = ({apiBase}) => {
     const defaultFormFields = {
         hoursSleep: ''
     }
@@ -20,6 +20,7 @@ const Dashboard = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const [pieChartMoodLogs, setPieChartMoodLogs] = useState();
     const [lineChartMoodLogs, setLineChartMoodLogs] = useState();
+    const [colors, setColors] = useState({});
     const [userId, setUserId] = useState(0);
     const [date, setDate] = useState(new Date());
     const { hoursSleep } = formFields;
@@ -59,20 +60,21 @@ const Dashboard = () => {
                 "deserializedMoodList": moodLogs
             })
         };
-        await fetch('https://localhost:7117/MoodLog/PostUserMoods', requestOptions)
+        await fetch(`${apiBase}/MoodLog/PostUserMoods`, requestOptions)
             .then(response => {
                 response.json(); 
                 getMoodLogsForDate();
                 getMoodLogsForUser();
             })
             .then(data => {
-                alert('Moods successfully logged');
+                if(data !== undefined)
+                    alert('Moods successfully logged');
             });
     }
 
     //Get moodLogs for current user on the given date
     const getMoodLogsForDate = async () => {
-        await fetch(`https://localhost:7117/MoodLog/GetUserMoods/${userId}/${moment(date).format("MM-DD-YYYY")}`)
+        await fetch(`${apiBase}/MoodLog/GetUserMoods/${userId}/${moment(date).format("MM-DD-YYYY")}`)
             .then(response => response.json())
             .then(data => {
                 setPieChartMoodLogs(data[0]);
@@ -82,7 +84,7 @@ const Dashboard = () => {
 
     //Get all moodLogs for current user
     const getMoodLogsForUser = async () => {
-        await fetch(`https://localhost:7117/MoodLog/GetUserMoods/${userId}`)
+        await fetch(`${apiBase}/MoodLog/GetUserMoods/${userId}`)
         .then(response => response.json())
         .then(data => {
             setLineChartMoodLogs(data.map(item => 
@@ -98,16 +100,22 @@ const Dashboard = () => {
 
     //Get moods from rds db
     const getMoods = async () => {
-        await fetch('https://localhost:7117/Mood/GetMoods').then(response => response.json())
+        await fetch(`${apiBase}/Mood/GetMoods`)
+            .then(response => response.json())
             .then(data => {
-                console.log(data)
                 dispatch(setMoods(data));
+
+                var moodColors = {};
+                data.forEach(item => {
+                    moodColors = {...moodColors, [item['moodName']]: item['color']}
+                })
+                setColors(moodColors);
             });
     }
 
     //Get current userId
     const getCurrentUserId = async () => {
-        await fetch(`https://localhost:7117/User/GetUser/${currentUser}`)
+        await fetch(`${apiBase}/User/GetUser/${currentUser}`)
             .then(response => response.json())
             .then(data => {setUserId(data.userId)})
     }
@@ -138,7 +146,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div className='pie-chart-container'>
+            <div className='chart-container'>
                 <DatePicker 
                     className='pie-chart-datepicker'
                     showIcon 
@@ -146,12 +154,12 @@ const Dashboard = () => {
                     onChange={(date) => setDate(date)} />
                 {
                     pieChartMoodLogs !== undefined ?
-                    <MoodLogPieChart moodData={pieChartMoodLogs} date={date.toDateString()} />
+                    <MoodLogPieChart moodData={pieChartMoodLogs} colors={colors} date={date.toDateString()} />
                     : <div>No data for the selected date.</div>
                 }
                 {
                     lineChartMoodLogs !== undefined ?
-                    <MoodLogLineChart moodData={lineChartMoodLogs}/>
+                    <MoodLogLineChart moodData={lineChartMoodLogs} colors={colors}/>
                     : <div>No data to display</div>
                 }
             </div>

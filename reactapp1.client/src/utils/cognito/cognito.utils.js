@@ -4,7 +4,6 @@ import {
     CognitoUser,
     AuthenticationDetails
   } from 'amazon-cognito-identity-js';
-import * as AWS from 'aws-sdk'
 import { promisify } from 'util';
 
 const userPool = new CognitoUserPool({
@@ -12,23 +11,21 @@ const userPool = new CognitoUserPool({
     ClientId: process.env.AWS_COGNITO_CLIENT_ID
 });
 
-
-
 export const getIdentityPoolCredentials = (authResult) => {
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: process.env.AWS_COGNITO_IDENTITY_POOL_ID,
-        Logins: { // optional tokens, used for authenticated login
-            'accounts.google.com': authResult['id_token'],
-        }
-    });
-        // Make the call to obtain credentials
-        AWS.config.credentials.get(function(){
+    // AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    //     IdentityPoolId: process.env.AWS_COGNITO_IDENTITY_POOL_ID,
+    //     Logins: { // optional tokens, used for authenticated login
+    //         'accounts.google.com': authResult['id_token'],
+    //     }
+    // });
+    //     // Make the call to obtain credentials
+    //     AWS.config.credentials.get(function(){
 
-        // Credentials will be available when this function is called.
-        var accessKeyId = AWS.config.credentials.accessKeyId;
-        var secretAccessKey = AWS.config.credentials.secretAccessKey;
-        var sessionToken = AWS.config.credentials.sessionToken;
-    });
+    //     // Credentials will be available when this function is called.
+    //     var accessKeyId = AWS.config.credentials.accessKeyId;
+    //     var secretAccessKey = AWS.config.credentials.secretAccessKey;
+    //     var sessionToken = AWS.config.credentials.sessionToken;
+    // });
 }
 
 export const getUserPool = () => {

@@ -4,9 +4,7 @@ import {
 } from 'recharts';
 import './mood-log-piechart.styles.scss';
 
-const MoodLogPieChart = ({ moodData, date }) => {
-    const colors = ['#FF0000', '#00FF00', '#0000FF'];
-
+const MoodLogPieChart = ({ moodData, date, colors }) => {
     const renderCustomizedLabel = (entry) => {
         return entry.moodName;
     };
@@ -37,7 +35,7 @@ const MoodLogPieChart = ({ moodData, date }) => {
                     nameKey="moodName" cx="50%" cy="50%" outerRadius={80} label={renderCustomizedLabel}>
                     {
                         moodData?.deserializedMoodList.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={colors[index]} />
+                            <Cell key={`cell-${index}`} fill={colors[entry['moodName']]} />
                         ))
                     }
                 </Pie>
