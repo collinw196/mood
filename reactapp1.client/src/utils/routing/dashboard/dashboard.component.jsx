@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setMoods } from '../../../app/store/moods/moods.slice';
 import FormInput from '../../../components/form-input/form-input.component';
 import MoodInput from '../../../components/mood-input/mood-input.component';
+import Button from '../../../components/button/button.component';
 import './dashboard.styles.scss';
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from 'uuid';
@@ -131,9 +132,17 @@ const Dashboard = ({apiBase}) => {
                     name="hoursSleep"
                     onChange={handleChange}
                     placeholder={hoursSleep}
+                    min="0"
+                    max="24"
                 />
 
-                <label>How have you been feeling today?</label>
+                <label style=
+                    {{display: "flex", 
+                    flexDirection: "column",
+                    textAlign: "center",
+                    paddingBottom: "10px"}}>
+                        How have you been feeling today?
+                </label>
 
                 {
                     moods?.map(mood => (
@@ -142,7 +151,7 @@ const Dashboard = ({apiBase}) => {
                 }
 
                 <div className='buttons-container'>
-                    <button onClick={logUserMoods}>Log Moods</button>
+                    <Button onClick={logUserMoods}>Log Moods</Button>
                 </div>
             </div>
 
