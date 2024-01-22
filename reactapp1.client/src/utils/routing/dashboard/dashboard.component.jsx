@@ -61,7 +61,7 @@ const Dashboard = ({apiBase}) => {
                 "deserializedMoodList": moodLogs
             })
         };
-        await fetch(`${apiBase}/MoodLog/PostUserMoods`, requestOptions)
+        await fetch(`https://localhost:7117/MoodLog/PostUserMoods`, requestOptions)
             .then(response => {
                 response.json(); 
                 getMoodLogsForDate();
@@ -75,7 +75,7 @@ const Dashboard = ({apiBase}) => {
 
     //Get moodLogs for current user on the given date
     const getMoodLogsForDate = async () => {
-        await fetch(`${apiBase}/MoodLog/GetUserMoods/${userId}/${moment(date).format("MM-DD-YYYY")}`)
+        await fetch(`https://localhost:7117/MoodLog/GetUserMoods/${userId}/${moment(date).format("MM-DD-YYYY")}`)
             .then(response => response.json())
             .then(data => {
                 setPieChartMoodLogs(data[0]);
@@ -85,7 +85,7 @@ const Dashboard = ({apiBase}) => {
 
     //Get all moodLogs for current user
     const getMoodLogsForUser = async () => {
-        await fetch(`${apiBase}/MoodLog/GetUserMoods/${userId}`)
+        await fetch(`https://localhost:7117/MoodLog/GetUserMoods/${userId}`)
         .then(response => response.json())
         .then(data => {
             setLineChartMoodLogs(data.map(item => 
@@ -101,7 +101,7 @@ const Dashboard = ({apiBase}) => {
 
     //Get moods from rds db
     const getMoods = async () => {
-        await fetch(`${apiBase}/Mood/GetMoods`)
+        await fetch(`https://localhost:7117/Mood/GetMoods`)
             .then(response => response.json())
             .then(data => {
                 dispatch(setMoods(data));
@@ -116,7 +116,7 @@ const Dashboard = ({apiBase}) => {
 
     //Get current userId
     const getCurrentUserId = async () => {
-        await fetch(`${apiBase}/User/GetUser/${currentUser}`)
+        await fetch(`https://localhost:7117/User/GetUser/${currentUser}`)
             .then(response => response.json())
             .then(data => {setUserId(data.userId)})
     }
