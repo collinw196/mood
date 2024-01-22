@@ -3,15 +3,22 @@
   flex-direction: column;
   width: 100%;
 
+  .header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
   .buttons-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    padding: 5px;
   }
   
   .form-container {
     margin: auto;
-    padding-bottom: 20px;
-    width: 350px;
+    padding-bottom: 30px;
+    width: 410px;
   }
 
   .chart-container {

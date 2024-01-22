@@ -1,11 +1,13 @@
 .mood-input-container {
   height: 20px;
   width: 200px;
+  padding: 5px;
   display: flex;
   flex-direction: row;
 
   .checkbox-container {
     display: flex;
+    min-width: 80px;
   }
 
   .mood-weight-input-container {
@@ -22,8 +24,5 @@
 
   .mood-notes-input-container {
     display: flex;
-    .mood-notes-input {
-
-    }
   }
 }
